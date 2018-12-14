@@ -36,9 +36,12 @@ def Cartesian_to_LonLat(point):
 def addPoints(p1, p2):
 	# Return a Cartesian point
 	return CartesianPoint(p1.x + p2.x, p1.y + p2.y, p1.z + p2.z)
+
+# Calculate the position of the new center of cluster (Cartesian)
 def dividePoints(sumPoints, numPoints):
     result = CartesianPoint(sumPoints.x / numPoints, sumPoints.y / numPoints, sumPoints.z / numPoints)
     return Cartesian_to_LonLat(result)
+
 # Given two pints, return the Euclidean distance of the two points (LonLatPoint)
 def EuclideanDistance(point1, point2):
 	newPoint1 = LonLat_to_Cartesian(point1);
@@ -46,10 +49,10 @@ def EuclideanDistance(point1, point2):
 	return math.sqrt((newPoint1.x - newPoint2.x)**2 + (newPoint1.y - newPoint2.y)**2 + (newPoint1.z - newPoint2.z)**2)
 
 # Given two points, return the great circle distance of the two (LonLatPoint)
-def GreatCircleDistance (poin1, point2):
-	latitude_diff = point1.latitude - point2.latitude
-	longtitude_diff = point1.longtitude - point2.longtitude
-	a = math.sin(latitude_diff/2)**2 + math.cos(point1.latitude) * math.cos(point2.latitude) * (sin(longtitude_diff/2)**2)
+def GreatCircleDistance (point1, point2):
+	latitude_diff = math.radians(point2.latitude) - math.radians(point1.latitude)
+	longtitude_diff = math.radians(point2.longtitude) - math.radians(point1.longtitude)
+	a = (math.sin(latitude_diff/2))**2 + math.cos(math.radians(point1.latitude)) * math.cos(math.radians(point2.latitude)) * (math.sin(longtitude_diff/2)**2)
 	c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
 	return RADIUS * c
 
